@@ -1,0 +1,41 @@
+<dashboard theme="dark">
+  <label>Controle loja Innovatis</label>
+  <row>
+    <panel>
+      <title>VENDAS POR USUÁRIO</title>
+      <chart>
+        <search>
+          <query>index=aplication sourcetype="json_no_timestamp"  "SAIDA"
+| stats  sum(Movimentação.quantidade) as Quantidade by  Movimentação.login_usuario
+| eval Vendedor = 'Movimentação.login_usuario'." Total: ".Quantidade
+| fields Vendedor Quantidade</query>
+          <earliest>-7d@h</earliest>
+          <latest>now</latest>
+          <refresh>30s</refresh>
+          <refreshType>delay</refreshType>
+        </search>
+        <option name="charting.chart">pie</option>
+        <option name="charting.drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </chart>
+    </panel>
+    <panel>
+      <title>SAÍDA DE PRODUTOS</title>
+      <chart>
+        <search>
+          <query>index=aplication sourcetype="json_no_timestamp"  "SAIDA"
+| stats  sum(Movimentação.quantidade) as Quantidade by  Movimentação.nome_produto
+| eval Produtos = 'Movimentação.nome_produto'." Total: ".Quantidade
+| fields Produtos Quantidade</query>
+          <earliest>-7d@h</earliest>
+          <latest>now</latest>
+          <refresh>30s</refresh>
+          <refreshType>delay</refreshType>
+        </search>
+        <option name="charting.chart">pie</option>
+        <option name="charting.drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </chart>
+    </panel>
+  </row>
+</dashboard>
